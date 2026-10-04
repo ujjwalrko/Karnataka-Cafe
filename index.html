@@ -187,10 +187,6 @@
         #hero .glass-dark { color: #f4eedc !important; border-color: rgba(199, 165, 82, .55) !important; background: rgba(13, 42, 27, .84) !important; }
         #hero .dasara-orbit { background-color: rgba(12, 42, 27, .6); border-color: rgba(199, 165, 82, .76); }
         #hero .dasara-orbit > div { border-color: rgba(226, 203, 138, .74); }
-        #hero .hero-visual .group > div { border-color: #c7a552; background-image: linear-gradient(to bottom, #39754a, #123523); }
-        #hero .hero-visual .group > div > div { background: #fffefa !important; color: #173923 !important; border: 1px solid rgba(199, 165, 82, .48); }
-        #hero .hero-visual .group > div > div h3, #hero .hero-visual .group > div > div i { color: #17452c !important; }
-        #hero .hero-visual .group > div > div p { color: #586a58 !important; }
         #menu, #about { background: linear-gradient(150deg, #fffefa, #f2f5ec 70%, #fbfaf5) !important; color: #173923 !important; }
         #menu { border-top: 1px solid rgba(218, 190, 119, .52); border-bottom: 1px solid rgba(218, 190, 119, .52); }
         #menu h2, #menu .text-deepMaroon, #about .text-deepMaroon, #about .text-white { color: #173923 !important; }
@@ -402,27 +398,28 @@
                 </div>
                 
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <a href="#menu" onclick="showMenuItem('m1'); return false;" aria-label="View Davangere Benne Dosa in the menu" class="hero-special-link relative group block">
-                        <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-2xl bg-gradient-to-b from-bananaGreen to-leafGreen p-4 shadow-2xl transform rotate-3 transition-transform group-hover:rotate-0 duration-500 border-2 border-royalGold">
-                            <!-- Dish Graphic Illustration / Display -->
-                            <div class="w-full h-full rounded-xl bg-warmCream text-deepMaroon p-4 flex flex-col justify-between items-center text-center shadow-inner relative overflow-hidden">
-                                <span class="bg-karnatakaRed text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">Today's Royal Special</span>
-                                
-                                <div class="my-auto space-y-2">
-                                    <div class="w-24 h-24 mx-auto rounded-full bg-sandalwood/50 flex items-center justify-center border-2 border-royalGold">
-                                        <i data-lucide="soup" class="w-14 h-14 text-deepMaroon animate-bounce-short"></i>
-                                    </div>
-                                    <h3 class="font-playfair text-2xl font-bold text-deepMaroon">Davangere Benne Dosa</h3>
-                                    <p class="text-xs text-gray-600 font-medium">Topped with freshly churned white butter & potato palya</p>
-                                </div>
+                    <a href="#menu" onclick="showMenuItem('m1'); return false;" aria-label="View Davangere Benne Dosa in the menu" class="hero-special-link group relative block w-64 rounded-3xl border border-royalGold/80 bg-[#fffdf6] p-5 text-center text-deepMaroon shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(0,0,0,.32)] sm:w-80 sm:p-6">
+                        <span class="inline-flex items-center gap-1.5 rounded-full border border-royalGold/60 bg-[#f3edda] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.16em] text-[#715b25]">
+                            <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
+                            Today’s Royal Special
+                        </span>
 
-                                <div class="w-full flex justify-between items-center pt-2 border-t border-royalGold/30 text-xs font-bold">
-                                    <span class="text-karnatakaRed text-base">₹120</span>
-                                    <span class="text-bananaGreen font-semibold flex items-center gap-1"><i data-lucide="flame" class="w-3.5 h-3.5"></i> High Demand</span>
-                                </div>
-                            </a>
+                        <div class="mx-auto mt-5 flex h-24 w-24 items-center justify-center rounded-full border border-royalGold/70 bg-[#eaf3e5] shadow-inner">
+                            <i data-lucide="soup" class="h-12 w-12 text-[#287d3f]"></i>
                         </div>
-                    </div>
+
+                        <h3 class="mt-4 font-playfair text-xl font-bold leading-snug text-[#17452c] sm:text-2xl">Davangere Benne Dosa</h3>
+                        <p class="mt-2 text-xs leading-relaxed text-[#586a58]">Topped with freshly churned white butter &amp; potato palya</p>
+
+                        <div class="mt-5 flex items-center justify-between border-t border-royalGold/40 pt-4">
+                            <span class="font-playfair text-xl font-bold text-[#287d3f]">₹120</span>
+                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#526b57]"><i data-lucide="flame" class="h-4 w-4 text-[#a78035]"></i> High Demand</span>
+                        </div>
+
+                        <span class="mt-4 inline-flex items-center gap-2 text-xs font-bold text-[#287d3f] transition-colors group-hover:text-[#17452c]">
+                            View in menu <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
+                        </span>
+                    </a>
                 </div>
             </div>
 
