@@ -106,6 +106,24 @@
         .hero-visual { animation: dasara-reveal 1100ms 180ms cubic-bezier(.2,.75,.25,1) both; }
         .dasara-orbit { animation: orbit 32s linear infinite; }
         .menu-card { animation: dasara-rise 550ms both; animation-delay: calc(var(--card-index, 0) * 55ms); }
+        .hero-special-link {
+            isolation: isolate;
+            overflow: hidden;
+            animation: royal-special-arrive 850ms 450ms cubic-bezier(.2,.75,.25,1) backwards;
+        }
+        .hero-special-link::after {
+            position: absolute;
+            z-index: 2;
+            top: -20%;
+            bottom: -20%;
+            left: -45%;
+            width: 28%;
+            content: '';
+            pointer-events: none;
+            background: linear-gradient(90deg, transparent, rgba(255, 253, 246, .25), transparent);
+            transform: skewX(-18deg);
+            animation: royal-special-sheen 1100ms 1350ms ease-in-out both;
+        }
         .reveal-on-scroll { transition: opacity 750ms ease, transform 750ms cubic-bezier(.2,.75,.25,1); }
         body.motion-ready .reveal-on-scroll:not(.is-visible) { opacity: 0; transform: translateY(28px); }
         .category-tab { transition: color 180ms ease, background-color 180ms ease, transform 180ms ease; }
@@ -203,8 +221,8 @@
         #menu .menu-card button.bg-gradient-to-r:hover { background-image: linear-gradient(110deg, #f0dfaf, #d0b56b) !important; color: #173923 !important; }
         #menu #searchInput { background: #fffdf7 !important; border-color: #c7a552 !important; color: #153824 !important; }
         #menu .menu-card { scroll-margin-top: 6rem; }
-        #hero .hero-special-link { border-radius: 1rem; }
         #hero .hero-special-link:focus-visible { outline: 3px solid #f1d77b; outline-offset: 6px; }
+        #hero .hero-special-link:hover { border-color: #f0d77d; }
         #about { border-color: rgba(199, 165, 82, .68) !important; }
         #about .text-sandalwood\/80, #about .text-sandalwood\/70 { color: #526b57 !important; }
         #about .glass-dark { background: rgba(250, 248, 238, .98) !important; border-color: rgba(218, 190, 119, .72) !important; }
@@ -221,16 +239,44 @@
         #cartOrderFooter input, #cartOrderFooter select { background: #fffdf7 !important; color: #153824 !important; }
         #cartOrderFooter label, #cartOrderFooter h4, #cartOrderFooter .text-deepMaroon { color: #f1eddf !important; }
         #trackModal > div, #managerModal > div { border-color: #c7a552 !important; }
-        #managerModal > div { background: #102d20 !important; color: #f1eddf !important; }
-        #managerModal > div > div:first-child { background: #123523 !important; }
-        #managerModal .bg-warmCream, #managerModal .bg-gray-50 { background: #173b29 !important; border-color: rgba(199, 165, 82, .35) !important; }
-        #managerModal .bg-white { background: #1b432e !important; border-color: rgba(199, 165, 82, .3) !important; }
-        #managerModal tbody { color: #e8e5d9 !important; }
         #managerModal select { background: #fffdf7 !important; color: #153824 !important; }
-        #managerModal .border-gray-200 { border-color: rgba(199, 165, 82, .28) !important; }
         #trackModal > div { background: #f8f6ed !important; }
         #welcomeLoader .font-kannada, #welcomeLoader .text-bananaGreen, #welcomeLoader .text-bananaGreen\/80 { color: #e9d49a !important; }
         #toast { background: #123523 !important; border-color: rgba(199, 165, 82, .7) !important; }
+        #staffLoginModal { background: rgba(5, 20, 12, .66) !important; }
+        #staffLoginForm { border-color: rgba(199, 165, 82, .68) !important; background: #fffdf6 !important; color: #173923; box-shadow: 0 24px 80px rgba(0, 0, 0, .32); }
+        #staffLoginForm h3, #staffLoginForm label { color: #173923 !important; }
+        #staffLoginForm > div:first-child > div:first-child { background: #eaf3e5 !important; color: #287d3f !important; }
+        #staffLoginForm input { border-color: rgba(40, 125, 63, .4) !important; color: #173923 !important; }
+        #staffLoginForm button[type="submit"] { background: #287d3f !important; color: #fffdf6 !important; }
+        #managerModal > div { background: #fffdf6 !important; color: #173923 !important; border-color: rgba(199, 165, 82, .8) !important; }
+        #managerModal > div > div:first-child { background: linear-gradient(110deg, #287d3f, #1d6337) !important; }
+        #managerModal .bg-warmCream, #managerModal .bg-gray-50 { background: #f4f5eb !important; border-color: rgba(199, 165, 82, .32) !important; }
+        #managerModal .bg-white { background: #fffefa !important; border-color: rgba(40, 125, 63, .15) !important; }
+        #managerModal .text-gray-500, #managerModal .text-gray-700 { color: #586a58 !important; }
+        #managerModal tbody { color: #344d3b !important; }
+        #managerModal tbody tr:hover { background: #f2f6ed !important; }
+        #managerModal thead { background: #eaf3e5 !important; color: #17452c !important; }
+        #managerModal .border-gray-200 { border-color: rgba(40, 125, 63, .16) !important; }
+        #managerModal select { background: #fffefa !important; color: #17452c !important; border-color: rgba(40, 125, 63, .28) !important; }
+        #managerModal .manager-table-wrap { overflow: auto; }
+        #managerModal table { min-width: 940px; }
+        #managerModal .manager-header { gap: 1rem; }
+        #managerModal .manager-header-actions { flex-wrap: wrap; justify-content: flex-end; }
+        @media (max-width: 640px) {
+            #hero .dasara-orbit { width: 16rem; height: 16rem; }
+            #managerModal { padding: .5rem !important; }
+            #managerModal > div { max-height: 94dvh !important; border-radius: 1rem !important; }
+            #managerModal .manager-header { align-items: flex-start; padding: .9rem 1rem !important; }
+            #managerModal .manager-header h3 { font-size: 1rem; line-height: 1.35; }
+            #managerModal .manager-header-actions { width: 100%; justify-content: flex-start; gap: .5rem; }
+            #managerModal .manager-header-actions > button { padding: .55rem .7rem; }
+            #managerModal .manager-header-actions > div { margin-left: auto; }
+            #managerModal .manager-stats { gap: .5rem; padding: .75rem !important; }
+            #managerModal .manager-stats > div { padding: .75rem !important; }
+            #managerModal .manager-table-wrap { padding: .75rem !important; }
+            #managerModal .manager-footer { gap: .75rem; align-items: flex-start; flex-direction: column; }
+        }
         body.dark-mode { background: #111d17 !important; color: #e8eee4 !important; }
         body.dark-mode #menu { background-color: #111d17 !important; }
         body.dark-mode .bg-white, body.dark-mode #menu .glass-card { background-color: #1c2b23 !important; }
@@ -245,8 +291,16 @@
         body.dark-mode #managerModal .text-deepMaroon { color: #e8eee4 !important; }
         body.dark-mode input, body.dark-mode select { background-color: #1c2b23 !important; color: #e8eee4 !important; border-color: #52685a !important; }
         body.dark-mode #cartItemsContainer > div { border-color: #46584a !important; }
-        body.dark-mode #managerModal thead { background-color: #263a2e !important; color: #e8eee4 !important; }
-        body.dark-mode #managerModal tbody { color: #e8eee4 !important; }
+        body.dark-mode #staffLoginForm { background: #17251e !important; color: #e8eee4 !important; }
+        body.dark-mode #staffLoginForm h3, body.dark-mode #staffLoginForm label { color: #e8eee4 !important; }
+        body.dark-mode #managerModal > div { background: #17251e !important; color: #e8eee4 !important; }
+        body.dark-mode #managerModal > div > div:first-child { background: linear-gradient(110deg, #194a2e, #123523) !important; }
+        body.dark-mode #managerModal .bg-warmCream, body.dark-mode #managerModal .bg-gray-50 { background: #22342a !important; }
+        body.dark-mode #managerModal .bg-white { background: #1c2b23 !important; }
+        body.dark-mode #managerModal .text-gray-500, body.dark-mode #managerModal .text-gray-700,
+        body.dark-mode #managerModal tbody { color: #bdcabb !important; }
+        body.dark-mode #managerModal tbody tr:hover { background: #22342a !important; }
+        body.dark-mode #managerModal thead { background: #263a2e !important; color: #e8eee4 !important; }
 
         @keyframes slide-down {
             from { opacity: 0; transform: translateY(-24px); }
@@ -257,10 +311,20 @@
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes dasara-reveal {
-            from { opacity: 0; transform: translateX(36px) scale(.96); }
-            to { opacity: 1; transform: translateX(0) scale(1); }
+            from { opacity: 0; transform: translateY(28px) scale(.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
         @keyframes orbit { to { transform: rotate(360deg); } }
+        @keyframes royal-special-arrive {
+            0% { opacity: 0; transform: translateY(28px) scale(.94); }
+            72% { opacity: 1; transform: translateY(-4px) scale(1.015); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes royal-special-sheen {
+            0% { opacity: 0; transform: translateX(0) skewX(-18deg); }
+            18% { opacity: 1; }
+            100% { opacity: 0; transform: translateX(620%) skewX(-18deg); }
+        }
         @keyframes logo-slide-up {
             from { opacity: 0; transform: translateY(42px); }
             to { opacity: 1; transform: translateY(0); }
@@ -398,25 +462,25 @@
                 </div>
                 
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <a href="#menu" onclick="showMenuItem('m1'); return false;" aria-label="View Davangere Benne Dosa in the menu" class="hero-special-link group relative block w-64 rounded-3xl border border-royalGold/80 bg-[#fffdf6] p-5 text-center text-deepMaroon shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(0,0,0,.32)] sm:w-80 sm:p-6">
-                        <span class="inline-flex items-center gap-1.5 rounded-full border border-royalGold/60 bg-[#f3edda] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.16em] text-[#715b25]">
+                    <a href="#menu" onclick="showMenuItem('m1'); return false;" aria-label="View Davangere Benne Dosa in the menu" class="hero-special-link group relative block w-64 rounded-3xl border-2 border-[#d6bd72] bg-[#287d3f] p-5 text-center text-[#fffdf6] shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(0,0,0,.32)] sm:w-80 sm:p-6">
+                        <span class="inline-flex items-center gap-1.5 rounded-full border border-[#d6bd72] bg-[#fffdf6] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.16em] text-[#715b25]">
                             <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
                             Today’s Royal Special
                         </span>
 
-                        <div class="mx-auto mt-5 flex h-24 w-24 items-center justify-center rounded-full border border-royalGold/70 bg-[#eaf3e5] shadow-inner">
+                        <div class="mx-auto mt-5 flex h-24 w-24 items-center justify-center rounded-full border-2 border-[#d6bd72] bg-[#fffdf6] shadow-inner">
                             <i data-lucide="soup" class="h-12 w-12 text-[#287d3f]"></i>
                         </div>
 
-                        <h3 class="mt-4 font-playfair text-xl font-bold leading-snug text-[#17452c] sm:text-2xl">Davangere Benne Dosa</h3>
-                        <p class="mt-2 text-xs leading-relaxed text-[#586a58]">Topped with freshly churned white butter &amp; potato palya</p>
+                        <h3 class="mt-4 font-playfair text-xl font-bold leading-snug text-[#fffdf6] sm:text-2xl">Davangere Benne Dosa</h3>
+                        <p class="mt-2 text-xs leading-relaxed text-white/85">Topped with freshly churned white butter &amp; potato palya</p>
 
-                        <div class="mt-5 flex items-center justify-between border-t border-royalGold/40 pt-4">
-                            <span class="font-playfair text-xl font-bold text-[#287d3f]">₹120</span>
-                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#526b57]"><i data-lucide="flame" class="h-4 w-4 text-[#a78035]"></i> High Demand</span>
+                        <div class="mt-5 flex items-center justify-between border-t border-[#d6bd72]/80 pt-4">
+                            <span class="font-playfair text-xl font-bold text-[#fffdf6]">₹120</span>
+                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#fffdf6]"><i data-lucide="flame" class="h-4 w-4 text-[#f0d77d]"></i> High Demand</span>
                         </div>
 
-                        <span class="mt-4 inline-flex items-center gap-2 text-xs font-bold text-[#287d3f] transition-colors group-hover:text-[#17452c]">
+                        <span class="mt-4 inline-flex items-center gap-2 text-xs font-bold text-[#f3df9c] transition-colors group-hover:text-white">
                             View in menu <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
                         </span>
                     </a>
@@ -663,14 +727,14 @@
     </div>
 
     <!-- Demo staff sign-in only: a client-side PIN is not secure authentication for a public deployment. -->
-    <div id="staffLoginModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+    <div id="staffLoginModal" role="dialog" aria-modal="true" aria-labelledby="staffLoginTitle" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
         <form id="staffLoginForm" onsubmit="handleStaffLogin(event)" class="w-full max-w-sm space-y-4 rounded-2xl border border-bananaGreen/20 bg-white p-6 shadow-2xl">
             <div class="flex items-center gap-3">
                 <div class="flex h-11 w-11 items-center justify-center rounded-full bg-sandalwood text-bananaGreen">
                     <i data-lucide="shield-check" class="h-5 w-5"></i>
                 </div>
                 <div>
-                    <h3 class="font-playfair text-xl font-bold text-deepMaroon">Staff sign-in</h3>
+                    <h3 id="staffLoginTitle" class="font-playfair text-xl font-bold text-deepMaroon">Staff sign-in</h3>
                     <p class="text-xs text-gray-500">Enter the staff PIN to manage food orders.</p>
                 </div>
             </div>
@@ -686,20 +750,22 @@
     </div>
 
     <!-- Staff order dashboard: session-gated in this demo; server-side authorization is required in production. -->
-    <div id="managerModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-        <div class="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-royalGold/50 overflow-hidden">
+    <div id="managerModal" role="dialog" aria-modal="true" aria-labelledby="managerTitle" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/55 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-royalGold/50 overflow-hidden">
             
             <!-- Manager Portal Header -->
-            <div class="bg-deepMaroon text-sandalwood px-6 py-4 flex items-center justify-between border-b border-royalGold/30">
+            <div class="manager-header bg-deepMaroon text-sandalwood px-6 py-4 flex items-center justify-between border-b border-royalGold/30">
                 <div class="flex items-center gap-3">
-                    <i data-lucide="file-spreadsheet" class="w-6 h-6 text-karnatakaYellow"></i>
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-karnatakaYellow">
+                        <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+                    </div>
                     <div>
-                        <h3 class="font-playfair text-xl font-bold text-white">Staff Portal · Food Order Status</h3>
+                        <h3 id="managerTitle" class="font-playfair text-xl font-bold text-white">Staff Portal · Food Order Status</h3>
                         <p class="text-xs text-sandalwood/80">Update kitchen progress and manage order logs</p>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-3">
+                <div class="manager-header-actions flex items-center gap-3">
                     <button onclick="exportOrdersToCSV()" class="px-4 py-2 bg-bananaGreen hover:bg-leafGreen text-white text-xs font-bold rounded-lg flex items-center gap-2 shadow-md transition-all">
                         <i data-lucide="download" class="w-4 h-4"></i>
                         <span>Export CSV / Excel</span>
@@ -714,7 +780,7 @@
             </div>
 
             <!-- Analytics Summary Bar -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 bg-warmCream border-b border-gray-200">
+            <div class="manager-stats grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 bg-warmCream border-b border-gray-200">
                 <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
                     <span class="text-xs text-gray-500 font-semibold block">Total Orders</span>
                     <span id="logTotalCount" class="text-2xl font-bold text-deepMaroon">0</span>
@@ -734,7 +800,7 @@
             </div>
 
             <!-- Orders Table Container -->
-            <div class="flex-1 overflow-x-auto p-6">
+            <div class="manager-table-wrap flex-1 overflow-x-auto p-6">
                 <table class="w-full text-left text-xs sm:text-sm">
                     <thead class="bg-deepMaroon/10 text-deepMaroon font-bold uppercase tracking-wider">
                         <tr>
@@ -754,7 +820,7 @@
             </div>
 
             <!-- Footer info -->
-            <div class="p-4 bg-gray-50 text-xs text-gray-500 border-t border-gray-200 flex justify-between items-center">
+            <div class="manager-footer p-4 bg-gray-50 text-xs text-gray-500 border-t border-gray-200 flex justify-between items-center">
                 <span>Orders persist automatically in LocalStorage</span>
                 <button onclick="clearOrderHistory()" class="text-karnatakaRed hover:underline font-semibold flex items-center gap-1">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Clear All Logs
@@ -775,7 +841,7 @@
 
     <script>
         /* DEMO ONLY: this PIN is bundled in the public page source and is not real authentication. */
-        const STAFF_DEMO_PIN = '2468';
+        const STAFF_DEMO_PIN = '8008';
         const STAFF_ORDER_STATUSES = ['Received', 'Preparing', 'Ready', 'Served', 'Cancelled'];
 
         /* Menu source of truth: renderMenuItems() uses these records to build the cards and basket entries. */
