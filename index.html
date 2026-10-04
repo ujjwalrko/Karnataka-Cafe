@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karnataka Cafe | Authentic Flavors of Karunadu</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display, Plus Jakarta Sans, Noto Sans Kannada -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sandalwood: '#EAF3E5',
+                        royalGold: '#BED63A',
+                        karnatakaYellow: '#E6EF24',
+                        karnatakaRed: '#277A40',
+                        deepMaroon: '#1D6337',
+                        bananaGreen: '#2F8748',
+                        leafGreen: '#4CA65D',
+                        warmCream: '#F8FAF2'
+                    },
+                    fontFamily: {
+                        playfair: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        kannada: ['Noto Sans Kannada', 'sans-serif'],
+                    },
+                    animation: {
+                        'float-slow': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'bounce-short': 'bounceShort 0.8s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-15px) rotate(5deg)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '1', boxShadow: '0 0 15px rgba(212, 175, 55, 0.6)' },
+                            '50%': { opacity: '0.8', boxShadow: '0 0 25px rgba(200, 16, 46, 0.8)' },
+                        },
+                        bounceShort: {
+                            '0%': { transform: 'translateY(0)' },
+                            '100%': { transform: 'translateY(-6px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Karnataka greens, logo yellow and entrance motion */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #102d20; }
+        ::-webkit-scrollbar-thumb { background: #c7a552; border-radius: 4px; }
+        
+        .rangoli-pattern {
+            background-color: #102d20;
+            background-image: linear-gradient(110deg, rgba(9, 31, 21, 0.94), rgba(16, 45, 32, 0.84) 54%, rgba(16, 45, 32, 0.66)), url('./assets/karnataka-cafe-storefront.webp');
+            background-position: center;
+            background-size: cover;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #f5df9a 0%, #d0ad5a 52%, #f2dfa3 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .banana-leaf-bg {
+            background: linear-gradient(135deg, #73B947 0%, #2F8748 100%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(40, 91, 69, 0.18);
+            border-radius: 10px;
+        }
+
+        .glass-dark {
+            background: rgba(12, 42, 27, 0.76);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(199, 165, 82, 0.34);
+        }
+
+        .festival-lattice {
+            background-image: radial-gradient(rgba(199, 165, 82, 0.16) 0.7px, transparent 0.7px), linear-gradient(135deg, transparent 49.7%, rgba(199, 165, 82, 0.045) 50%, transparent 50.3%);
+            background-size: 24px 24px, 36px 36px;
+        }
+
+        /* Header entrance animation; navigation layout and responsive breakpoints are set on the header/nav Tailwind classes below. */
+        .site-header { animation: slide-down 700ms cubic-bezier(.2,.75,.25,1) both; }
+        .hero-copy > * { animation: dasara-rise 850ms cubic-bezier(.2,.75,.25,1) both; }
+        .hero-copy > *:nth-child(2) { animation-delay: 100ms; }
+        .hero-copy > *:nth-child(3) { animation-delay: 180ms; }
+        .hero-copy > *:nth-child(4) { animation-delay: 260ms; }
+        .hero-copy > *:nth-child(5) { animation-delay: 340ms; }
+        .hero-visual { animation: dasara-reveal 1100ms 180ms cubic-bezier(.2,.75,.25,1) both; }
+        .dasara-orbit { animation: orbit 32s linear infinite; }
+        .menu-card { animation: dasara-rise 550ms both; animation-delay: calc(var(--card-index, 0) * 55ms); }
+        .reveal-on-scroll { transition: opacity 750ms ease, transform 750ms cubic-bezier(.2,.75,.25,1); }
+        body.motion-ready .reveal-on-scroll:not(.is-visible) { opacity: 0; transform: translateY(28px); }
+        .category-tab { transition: color 180ms ease, background-color 180ms ease, transform 180ms ease; }
+        .category-tab:hover { transform: translateY(-2px); }
+
+        #welcomeLoader {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            isolation: isolate;
+            overflow: hidden;
+            color: #f5f0dc;
+            background: radial-gradient(ellipse at 50% 45%, rgba(41, 91, 54, .54), transparent 47%), linear-gradient(140deg, #071a11, #103523 54%, #081c12);
+            transition: transform 850ms cubic-bezier(.72, 0, .2, 1);
+        }
+        #welcomeLoader.is-leaving { transform: translateY(-100%); pointer-events: none; }
+        .welcome-content { position: relative; z-index: 2; animation: logo-slide-up 900ms 120ms cubic-bezier(.2,.75,.25,1) both; }
+        .welcome-logo-card {
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+        }
+        .welcome-logo-card img { filter: drop-shadow(0 14px 26px rgba(0, 0, 0, .28)); }
+        .welcome-progress { height: 2px; overflow: hidden; background: rgba(240, 221, 162, .18); }
+        .welcome-progress::after { display: block; width: 100%; height: 100%; content: ''; background: linear-gradient(90deg, #a78035, #f3df9c, #a78035); transform-origin: left; animation: welcome-progress 2.5s ease-out both; }
+        .welcome-kannada, .welcome-title { color: #f1dfad; }
+        .welcome-tagline, .welcome-skip { color: rgba(245, 240, 220, .76); }
+        .welcome-frame {
+            position: relative;
+            padding: 2rem 0;
+        }
+        .welcome-frame::before, .welcome-frame::after {
+            position: absolute;
+            left: 50%;
+            width: min(86vw, 25rem);
+            height: 100%;
+            content: '';
+            pointer-events: none;
+            transform: translateX(-50%);
+        }
+        .welcome-frame::before {
+            top: 0;
+            border: 1px solid rgba(220, 191, 112, .3);
+            border-bottom: 0;
+            border-radius: 50% 50% 0 0 / 18% 18% 0 0;
+            mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+        }
+        #cartBackdrop { z-index: 0; }
+        #cartPanel { position: relative; z-index: 1; height: 100dvh; }
+        #cartItemsContainer { min-height: 0; }
+        #cartDrawer[aria-hidden="true"] { visibility: hidden; }
+        #cartDrawer[aria-hidden="false"] { visibility: visible; }
+        #cartDrawer[aria-hidden="false"] #cartPanel { box-shadow: -18px 0 55px rgba(29, 99, 55, .2); }
+        #cartItemsContainer .cart-line-item { border-color: rgba(199, 165, 82, .34); background: #173b29; }
+        #cartItemsContainer .cart-quantity-control { border-color: rgba(199, 165, 82, .4); color: #f3eddb; background: #214a33; }
+        #cartItemsContainer .cart-line-price { color: #e8d59b; }
+        #cartOrderFooter { max-height: 68vh; overflow-y: auto; flex-shrink: 0; }
+        #cartBadgeCount { min-width: 1.4rem; }
+        /* Dark forest brand surfaces; menu filter tabs remain white for clear, tactile navigation. */
+        body:not(.dark-mode) { background: #f8f7f0 !important; color: #173923 !important; }
+        body:not(.dark-mode) > .festival-lattice { opacity: .22; }
+        .site-header { background-color: #0d281b !important; border-color: rgba(218, 190, 119, .72) !important; }
+        .site-header > div { border-bottom: 1px solid rgba(218, 190, 119, .32); }
+        .site-header > div > a { background: transparent !important; }
+        .site-header > div > a img { filter: drop-shadow(0 2px 7px rgba(0, 0, 0, .34)); }
+        .site-header .nav1 { background: #123523 !important; border-color: rgba(199, 165, 82, .48) !important; box-shadow: 0 5px 22px rgba(0, 0, 0, .2); }
+        .site-header #cartOpenButton { background: #f8f5eb !important; color: #16412a !important; }
+        #hero.rangoli-pattern { color: #f3eddb; background-color: #123523; }
+        #hero .hero-copy, #hero .hero-copy .text-sandalwood, #hero .hero-copy .text-sandalwood\/90 { color: #e4e8d8 !important; }
+        #hero .hero-copy h1 { color: #f6f0dd !important; }
+        #hero .hero-copy > div:first-child { color: #f2dfa3 !important; border-color: rgba(199, 165, 82, .65) !important; background-color: rgba(14, 46, 29, .88) !important; }
+        #hero .hero-copy > div:first-child i, #hero .hero-copy i.text-karnatakaYellow { color: #dfc375 !important; }
+        #hero .hero-copy > div:last-child > a { background-image: linear-gradient(110deg, #e3cd91, #c3a354) !important; color: #173923 !important; }
+        #hero .hero-copy > div:last-child > a i { color: #173923 !important; }
+        #hero > .absolute.inset-0.bg-gradient-to-r { background-image: linear-gradient(to right, rgba(8, 29, 19, .88), rgba(8, 29, 19, .64), rgba(8, 29, 19, .28)) !important; }
+        #hero .hero-copy .gold-gradient-text { background-image: linear-gradient(135deg, #fff0b8 0%, #d0ad5a 52%, #f2dfa3 100%); }
+        #hero .glass-dark { color: #f4eedc !important; border-color: rgba(199, 165, 82, .55) !important; background: rgba(13, 42, 27, .84) !important; }
+        #hero .dasara-orbit { background-color: rgba(12, 42, 27, .6); border-color: rgba(199, 165, 82, .76); }
+        #hero .dasara-orbit > div { border-color: rgba(226, 203, 138, .74); }
+        #hero .hero-visual .group > div { border-color: #c7a552; background-image: linear-gradient(to bottom, #39754a, #123523); }
+        #hero .hero-visual .group > div > div { background: #fffefa !important; color: #173923 !important; border: 1px solid rgba(199, 165, 82, .48); }
+        #hero .hero-visual .group > div > div h3, #hero .hero-visual .group > div > div i { color: #17452c !important; }
+        #hero .hero-visual .group > div > div p { color: #586a58 !important; }
+        #menu, #about { background: linear-gradient(150deg, #fffefa, #f2f5ec 70%, #fbfaf5) !important; color: #173923 !important; }
+        #menu { border-top: 1px solid rgba(218, 190, 119, .52); border-bottom: 1px solid rgba(218, 190, 119, .52); }
+        #menu h2, #menu .text-deepMaroon, #about .text-deepMaroon, #about .text-white { color: #173923 !important; }
+        #menu > div:first-child > span { color: #806625 !important; }
+        #menu p.text-gray-600, #about p.text-gray-600 { color: #586a58 !important; }
+        #menu .category-tab { background: #fffdf7 !important; border-color: rgba(199, 165, 82, .75) !important; color: #17452c !important; box-shadow: 0 3px 12px rgba(0, 0, 0, .18); }
+        #menu .category-tab[aria-pressed="true"] { background: #f4e7bd !important; color: #10351f !important; border-color: #c7a552 !important; }
+        #menu .glass-card { background: linear-gradient(145deg, #fffefa, #f7f4e8) !important; border: 1px solid rgba(218, 190, 119, .82) !important; color: #173923; box-shadow: 0 10px 26px rgba(3, 19, 11, .2); }
+        #menu .menu-card h3, #menu .menu-card .text-deepMaroon:not(button), #menu .menu-card .font-kannada { color: #17452c !important; }
+        #menu .menu-card p.text-gray-600 { color: #586a58 !important; }
+        #menu .menu-card .border-t { border-color: rgba(199, 165, 82, .58) !important; }
+        #menu .menu-card .bg-royalGold\/20 { background: rgba(199, 165, 82, .16) !important; border-color: rgba(173, 137, 56, .62) !important; color: #755c23 !important; }
+        #menu .menu-card button.bg-gradient-to-r { background-image: linear-gradient(110deg, #e3cd91, #c3a354) !important; color: #173923 !important; }
+        #menu .menu-card button.bg-gradient-to-r:hover { background-image: linear-gradient(110deg, #f0dfaf, #d0b56b) !important; color: #173923 !important; }
+        #menu #searchInput { background: #fffdf7 !important; border-color: #c7a552 !important; color: #153824 !important; }
+        #menu .menu-card { scroll-margin-top: 6rem; }
+        #hero .hero-special-link { border-radius: 1rem; }
+        #hero .hero-special-link:focus-visible { outline: 3px solid #f1d77b; outline-offset: 6px; }
+        #about { border-color: rgba(199, 165, 82, .68) !important; }
+        #about .text-sandalwood\/80, #about .text-sandalwood\/70 { color: #526b57 !important; }
+        #about .glass-dark { background: rgba(250, 248, 238, .98) !important; border-color: rgba(218, 190, 119, .72) !important; }
+        #about .glass-dark h4, #about .glass-dark .text-bananaGreen { color: #17452c !important; }
+        #about .glass-dark p { color: #586a58 !important; }
+        #about .bg-white\/80 { background: #fffefa !important; border-color: rgba(218, 190, 119, .82) !important; }
+        #about .bg-white\/80 h3 { color: #17452c !important; }
+        #about .bg-white\/80 p, #about .bg-white\/80 .text-gray-600 { color: #586a58 !important; }
+        #cartPanel { background: #102d20 !important; color: #f1eddf !important; border-left: 1px solid rgba(199, 165, 82, .55); }
+        #cartPanel > .bg-bananaGreen { background: #123523 !important; border-bottom-color: rgba(199, 165, 82, .55) !important; }
+        #cartItemsContainer .cart-line-item h4, #cartItemsContainer .cart-line-item .text-deepMaroon { color: #f1eddf !important; }
+        #cartItemsContainer .cart-line-item .text-gray-600, #cartItemsContainer .cart-line-item .text-gray-500 { color: #c5cebd !important; }
+        #cartOrderFooter { background: #163a27 !important; border-color: rgba(199, 165, 82, .48) !important; }
+        #cartOrderFooter input, #cartOrderFooter select { background: #fffdf7 !important; color: #153824 !important; }
+        #cartOrderFooter label, #cartOrderFooter h4, #cartOrderFooter .text-deepMaroon { color: #f1eddf !important; }
+        #trackModal > div, #managerModal > div { border-color: #c7a552 !important; }
+        #managerModal > div { background: #102d20 !important; color: #f1eddf !important; }
+        #managerModal > div > div:first-child { background: #123523 !important; }
+        #managerModal .bg-warmCream, #managerModal .bg-gray-50 { background: #173b29 !important; border-color: rgba(199, 165, 82, .35) !important; }
+        #managerModal .bg-white { background: #1b432e !important; border-color: rgba(199, 165, 82, .3) !important; }
+        #managerModal tbody { color: #e8e5d9 !important; }
+        #managerModal select { background: #fffdf7 !important; color: #153824 !important; }
+        #managerModal .border-gray-200 { border-color: rgba(199, 165, 82, .28) !important; }
+        #trackModal > div { background: #f8f6ed !important; }
+        #welcomeLoader .font-kannada, #welcomeLoader .text-bananaGreen, #welcomeLoader .text-bananaGreen\/80 { color: #e9d49a !important; }
+        #toast { background: #123523 !important; border-color: rgba(199, 165, 82, .7) !important; }
+        body.dark-mode { background: #111d17 !important; color: #e8eee4 !important; }
+        body.dark-mode #menu { background-color: #111d17 !important; }
+        body.dark-mode .bg-white, body.dark-mode #menu .glass-card { background-color: #1c2b23 !important; }
+        body.dark-mode .bg-warmCream, body.dark-mode .bg-gray-50 { background-color: #22342a !important; }
+        body.dark-mode #cartPanel, body.dark-mode #trackModal > div, body.dark-mode #managerModal > div { background-color: #17251e !important; color: #e8eee4 !important; }
+        body.dark-mode #menu .text-gray-600, body.dark-mode #menu .text-gray-500,
+        body.dark-mode #cartPanel .text-gray-600, body.dark-mode #cartPanel .text-gray-700,
+        body.dark-mode #managerModal .text-gray-500, body.dark-mode #managerModal .text-gray-700,
+        body.dark-mode #trackModal .text-gray-500 { color: #bdcabb !important; }
+        body.dark-mode #menu .menu-card h3, body.dark-mode #menu .menu-card .text-deepMaroon:not(button),
+        body.dark-mode #cartPanel .text-deepMaroon, body.dark-mode #trackModal .text-deepMaroon,
+        body.dark-mode #managerModal .text-deepMaroon { color: #e8eee4 !important; }
+        body.dark-mode input, body.dark-mode select { background-color: #1c2b23 !important; color: #e8eee4 !important; border-color: #52685a !important; }
+        body.dark-mode #cartItemsContainer > div { border-color: #46584a !important; }
+        body.dark-mode #managerModal thead { background-color: #263a2e !important; color: #e8eee4 !important; }
+        body.dark-mode #managerModal tbody { color: #e8eee4 !important; }
+
+        @keyframes slide-down {
+            from { opacity: 0; transform: translateY(-24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes dasara-rise {
+            from { opacity: 0; transform: translateY(26px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes dasara-reveal {
+            from { opacity: 0; transform: translateX(36px) scale(.96); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes orbit { to { transform: rotate(360deg); } }
+        @keyframes logo-slide-up {
+            from { opacity: 0; transform: translateY(42px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes welcome-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+
+        /* Toast Animation */
+        #toast {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-warmCream text-gray-800 font-sans antialiased overflow-x-hidden selection:bg-karnatakaYellow selection:text-deepMaroon">
+
+    <!-- Intro overlay: branding and logo entrance animation. dismissWelcome() removes it after the intro. -->
+    <div id="welcomeLoader" role="dialog" aria-modal="true" aria-label="Welcome to Karnataka Cafe">
+        <div class="welcome-content w-full max-w-md px-6 text-center">
+            <div class="welcome-frame">
+                <div class="welcome-logo-card mx-auto w-full max-w-sm">
+                    <img src="./assets/karnataka-cafe-logo.png" alt="Karnataka Café logo" class="w-full h-auto object-contain">
+                </div>
+                <p class="welcome-kannada font-kannada text-xs font-semibold mt-7 mb-2">ಕರ್ನಾಟಕ ಕೆಫೆ</p>
+                <h2 class="welcome-title font-playfair text-3xl sm:text-4xl font-bold">Karnataka Café</h2>
+                <p class="welcome-tagline mt-2">Something every Indian adores.</p>
+            </div>
+            <div class="welcome-progress mt-8 rounded-full" aria-hidden="true"></div>
+            <button type="button" onclick="dismissWelcome()" class="welcome-skip mt-6 text-xs font-semibold hover:text-white transition-colors">Skip intro</button>
+        </div>
+    </div>
+
+    <!-- Decorative page-wide texture; aria-hidden and pointer-events-none keep it out of content and interaction. -->
+    <div class="festival-lattice fixed inset-0 pointer-events-none z-0 opacity-30" aria-hidden="true">
+    </div>
+
+    <!-- Sticky site header. Logo links to the hero; header actions stay visible at every breakpoint. -->
+    <header class="site-header sticky top-0 z-40 bg-deepMaroon text-white backdrop-blur-md border-b border-bananaGreen/20 shadow-md transition-all">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2">
+            
+            <!-- Brand logo asset: replace assets/karnataka-cafe-logo.png to update the header mark. -->
+            <a href="#hero" aria-label="Karnataka Cafe home" class="flex w-24 sm:w-44 shrink-0 items-center rounded-lg bg-white px-2 group">
+                <img src="./assets/karnataka-cafe-logo.png" alt="Karnataka Café — Something every Indian adores" class="w-full h-12 object-contain transition-transform duration-300 group-hover:scale-105">
+            </a>
+
+            <!-- Primary anchor navigation: hidden below the lg breakpoint to preserve mobile header space. -->
+            <!-- Nav styling: links sit directly on the dark-green header; white text and yellow hover accent maintain contrast. -->
+            <nav class="nav1 hidden lg:flex items-center space-x-8 rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-white">
+                <a href="#hero" class="hover:text-karnatakaYellow transition-colors flex items-center gap-1.5"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+                <a href="#menu" class="hover:text-karnatakaYellow transition-colors flex items-center gap-1.5"><i data-lucide="utensils" class="w-4 h-4"></i> Menu</a>
+                <a href="#about" class="hover:text-karnatakaYellow transition-colors flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4"></i> Karunadu Special</a>
+                <button type="button" onclick="openTrackModal()" class="hover:text-karnatakaYellow transition-colors flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i> My Trackings</button>
+            </nav>
+
+            <!-- Persistent actions: theme control, manager logs, and order basket. -->
+            <div class="flex shrink-0 items-center gap-1.5 sm:gap-3">
+
+                <button id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark theme" title="Switch theme" class="p-2 rounded-full text-karnatakaYellow hover:bg-white/10 transition-colors">
+                    <i data-lucide="moon" class="w-5 h-5"></i>
+                </button>
+                
+                <!-- Manager Dashboard Toggle Button -->
+                <button onclick="toggleManagerModal()" aria-label="Staff Portal" title="Staff Portal" class="p-2 sm:px-3 sm:py-2 text-xs font-semibold rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/25 flex items-center gap-2 transition-all">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <span class="hidden lg:inline">Staff Portal</span>
+                </button>
+
+                <button id="cartOpenButton" type="button" onclick="openCartDrawer()" aria-label="Open order basket, 0 items" aria-controls="cartDrawer" aria-expanded="false" class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-2.5 py-2 text-deepMaroon shadow-md ring-2 ring-white/20 transition-all hover:bg-sandalwood hover:shadow-lg active:scale-95 sm:gap-2 sm:px-3">
+                    <i data-lucide="shopping-bag" class="h-4 w-4 sm:h-5 sm:w-5"></i>
+                    <span class="text-xs font-bold">Basket</span>
+                    <span id="cartBadgeCount" aria-live="polite" class="flex h-5 min-w-5 items-center justify-center rounded-full bg-karnatakaYellow px-1 text-xs font-extrabold text-deepMaroon shadow-sm">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero landing section: background image and copy on the left; featured-dish card on the right. -->
+    <section id="hero" class="relative rangoli-pattern text-deepMaroon min-h-[88vh] flex items-center overflow-hidden py-16">
+        <!-- Light overlay preserves text contrast over the storefront background image. -->
+        <div class="absolute inset-0 bg-gradient-to-r from-warmCream/50 via-warmCream/25 to-transparent z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="hero-copy lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-royalGold/20 border border-royalGold/40 text-karnatakaYellow text-sm font-medium animate-pulse">
+                    <i data-lucide="award" class="w-4 h-4"></i>
+                    <span>Pure Veg · Karnataka roots</span>
+                </div>
+                
+                <h1 class="font-playfair text-4xl sm:text-5xl xl:text-6xl font-extrabold text-deepMaroon leading-tight">
+                    Something Every Indian <br>
+                    <span class="gold-gradient-text">Adores</span>
+                </h1>
+                
+                <p class="text-sandalwood/90 text-lg sm:text-xl max-w-2xl font-light leading-relaxed">
+                    Karnataka Café brings you authentic South Indian favourites, hearty North Indian classics, and Chinese delights, freshly prepared and served with warmth.
+                </p>
+
+                <!-- Features Highlights Bar -->
+                <div class="pt-2 flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-sandalwood font-medium">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle2" class="text-karnatakaYellow w-5 h-5"></i>
+                        <span>100% Pure Filter Coffee</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle2" class="text-karnatakaYellow w-5 h-5"></i>
+                        <span>Authentic Mysuru Ghee</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle2" class="text-karnatakaYellow w-5 h-5"></i>
+                        <span>Instant Table Delivery</span>
+                    </div>
+                </div>
+
+                <!-- Call To Actions -->
+                <div class="pt-6 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <a href="#menu" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-karnatakaYellow to-royalGold text-deepMaroon font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
+                        <i data-lucide="utensils-crossed" class="w-5 h-5"></i>
+                        <span>Explore Menu & Order</span>
+                    </a>
+                    <button onclick="openTrackModal()" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-dark text-sandalwood font-semibold text-base border border-royalGold/40 hover:bg-royalGold/20 hover:text-white transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                        <span>Track Existing Order</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Featured dish links directly to its matching item in the interactive menu. -->
+            <div class="hero-visual lg:col-span-5 relative flex justify-center items-center">
+                <div class="dasara-orbit relative w-72 h-72 sm:w-96 sm:h-96 rounded-full border-4 border-bananaGreen/40 p-3 bg-white/50 shadow-2xl flex items-center justify-center">
+                    <!-- Outer Decorative Ring -->
+                    <div class="absolute inset-0 rounded-full border-2 border-dashed border-karnatakaYellow/50"></div>
+                </div>
+                
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <a href="#menu" onclick="showMenuItem('m1'); return false;" aria-label="View Davangere Benne Dosa in the menu" class="hero-special-link relative group block">
+                        <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-2xl bg-gradient-to-b from-bananaGreen to-leafGreen p-4 shadow-2xl transform rotate-3 transition-transform group-hover:rotate-0 duration-500 border-2 border-royalGold">
+                            <!-- Dish Graphic Illustration / Display -->
+                            <div class="w-full h-full rounded-xl bg-warmCream text-deepMaroon p-4 flex flex-col justify-between items-center text-center shadow-inner relative overflow-hidden">
+                                <span class="bg-karnatakaRed text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">Today's Royal Special</span>
+                                
+                                <div class="my-auto space-y-2">
+                                    <div class="w-24 h-24 mx-auto rounded-full bg-sandalwood/50 flex items-center justify-center border-2 border-royalGold">
+                                        <i data-lucide="soup" class="w-14 h-14 text-deepMaroon animate-bounce-short"></i>
+                                    </div>
+                                    <h3 class="font-playfair text-2xl font-bold text-deepMaroon">Davangere Benne Dosa</h3>
+                                    <p class="text-xs text-gray-600 font-medium">Topped with freshly churned white butter & potato palya</p>
+                                </div>
+
+                                <div class="w-full flex justify-between items-center pt-2 border-t border-royalGold/30 text-xs font-bold">
+                                    <span class="text-karnatakaRed text-base">₹120</span>
+                                    <span class="text-bananaGreen font-semibold flex items-center gap-1"><i data-lucide="flame" class="w-3.5 h-3.5"></i> High Demand</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive menu: categoryFilters and dishesGrid are populated from MENU_ITEMS by renderCategories/renderMenuItems. -->
+    <section id="menu" class="reveal-on-scroll py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center space-y-3 mb-12">
+            <span class="font-kannada text-karnatakaRed font-bold text-sm tracking-widest uppercase">ಮೆನು - ರುಚಿಕರ ಅಡುಗೆಗಳು</span>
+            <h2 class="font-playfair text-3xl sm:text-5xl font-extrabold text-deepMaroon">
+                Our Signature Menu
+            </h2>
+            <p class="text-gray-600 max-w-xl mx-auto text-sm sm:text-base">
+                Fresh ingredients sourced directly from Karnataka farms, cooked in brass utensils with authentic age-old traditions.
+            </p>
+        </div>
+
+        <!-- Filter Categories -->
+        <div class="flex items-center justify-center gap-2 sm:gap-4 overflow-x-auto pb-4 no-scrollbar mb-8" id="categoryFilters">
+            <!-- Dynamic Buttons populated by JS -->
+        </div>
+
+        <!-- Dish Search Bar -->
+        <div class="max-w-md mx-auto mb-10 relative">
+            <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input type="text" id="searchInput" oninput="filterMenu()" placeholder="Search Bisi Bele Bath, Coffee, Dosa..." class="w-full pl-12 pr-4 py-3.5 rounded-xl border border-royalGold/40 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-royalGold focus:border-transparent text-sm">
+        </div>
+
+        <!-- Dishes Grid -->
+        <div id="dishesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Dynamic Menu Items populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- About/heritage section: static brand story and feature highlights. -->
+    <section id="about" class="reveal-on-scroll bg-warmCream text-deepMaroon py-16 border-y border-bananaGreen/20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-karnatakaYellow font-semibold tracking-wider text-sm uppercase">Authentic Experience</span>
+                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-deepMaroon leading-tight">
+                        Why Karnataka Cafe is Loved Across the City
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">
+                        Every single dish tells a story of Karnataka's rich culinary legacy—from the royal kitchens of the Wadiyars to the vibrant street corners of Bengaluru and the coastal aroma of Mangaluru.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-6 pt-4">
+                        <div class="p-4 rounded-xl glass-dark border border-bananaGreen/20 space-y-2">
+                            <i data-lucide="coffee" class="w-8 h-8 text-bananaGreen"></i>
+                            <h4 class="font-bold text-deepMaroon">Chikmagalur Coffee</h4>
+                            <p class="text-xs text-gray-600">Freshly roasted beans brewed with pure cow milk in brass davara.</p>
+                        </div>
+                        <div class="p-4 rounded-xl glass-dark border border-bananaGreen/20 space-y-2">
+                            <i data-lucide="shield-check" class="w-8 h-8 text-bananaGreen"></i>
+                            <h4 class="font-bold text-deepMaroon">Pure Desi Ghee</h4>
+                            <p class="text-xs text-gray-600">100% natural aromatic ghee used liberally for maximum flavor.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative flex justify-center">
+                    <div class="w-full max-w-md p-6 rounded-2xl bg-white/80 border border-bananaGreen/20 backdrop-blur-md shadow-xl space-y-4">
+                        <div class="flex items-center gap-3 border-b border-bananaGreen/20 pb-4">
+                            <div class="w-10 h-10 rounded-full bg-sandalwood flex items-center justify-center text-bananaGreen font-bold">
+                                ☕
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-deepMaroon">Degrees Filter Coffee Guarantee</h3>
+                                <p class="text-xs text-gray-600">Served piping hot in traditional South Indian Tumbler</p>
+                            </div>
+                        </div>
+                        <div class="text-xs space-y-2 text-gray-600">
+                            <div class="flex justify-between">
+                                <span>Filter Strength:</span>
+                                <span class="font-bold text-bananaGreen">100% Pure Chicory Blend</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Preparation Time:</span>
+                                <span class="font-bold text-bananaGreen">Instant Fresh Serve</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Serving Style:</span>
+                                <span class="font-bold text-bananaGreen">Brass Davara Tumbler</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Basket drawer: cartDrawer visibility and cartPanel slide are controlled by openCartDrawer/closeCartDrawer. -->
+    <div id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartDrawerTitle" aria-hidden="true" class="fixed inset-0 z-50 overflow-hidden pointer-events-none transition-all duration-300">
+        <!-- Backdrop -->
+        <div id="cartBackdrop" onclick="closeCartDrawer()" class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+
+        <div class="absolute inset-y-0 right-0 w-full max-w-md">
+            <div id="cartPanel" class="w-full bg-white shadow-2xl pointer-events-auto transform translate-x-full transition-transform duration-300 flex flex-col">
+                
+                <!-- Drawer Header -->
+                <div class="bg-bananaGreen text-white px-5 sm:px-6 py-4 flex items-center justify-between border-b border-bananaGreen/20">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="shopping-bag" class="w-6 h-6 text-karnatakaYellow"></i>
+                        <div>
+                            <h3 id="cartDrawerTitle" class="font-playfair text-lg font-bold">Your Basket <span id="cartDrawerItemCount" class="font-sans text-sm">(0 items)</span></h3>
+                            <p class="text-xs text-white/85">Your fresh Karnataka Café order</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="closeCartDrawer()" aria-label="Close basket" class="p-2 rounded-lg text-white hover:bg-white/15 transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Dynamic basket lines and empty state; updateCartUI() also refreshes the badge and totals. -->
+                <div id="cartItemsContainer" aria-live="polite" class="flex-1 min-h-0 overflow-y-auto p-5 sm:p-6 space-y-4">
+                    <!-- Populated dynamically by JS -->
+                </div>
+
+                <!-- Customer and service details plus order totals; handlePlaceOrder() validates and records submissions. -->
+                <div id="cartOrderFooter" class="p-4 sm:p-6 bg-warmCream border-t border-bananaGreen/20 space-y-3">
+                    <h4 class="font-bold text-deepMaroon text-sm uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="user-check" class="w-4 h-4"></i> Dining & Table Information
+                    </h4>
+
+                    <form id="orderForm" onsubmit="handlePlaceOrder(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Customer Name *</label>
+                            <input type="text" id="custName" required placeholder="e.g. Ramesh Kumar" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-royalGold focus:outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Phone Number *</label>
+                                <input type="tel" id="custPhone" required placeholder="9876543210" pattern="[0-9]{10}" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-royalGold focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Table No. / Service *</label>
+                                <select id="custTable" required class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-royalGold focus:outline-none bg-white">
+                                    <option value="Table 1">Table 01</option>
+                                    <option value="Table 2">Table 02</option>
+                                    <option value="Table 3">Table 03</option>
+                                    <option value="Table 4">Table 04</option>
+                                    <option value="Table 5">Table 05</option>
+                                    <option value="Table 6">Table 06</option>
+                                    <option value="Takeaway">Takeaway (Parcel)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Special Instructions (Optional)</label>
+                            <input type="text" id="orderNotes" placeholder="e.g. Less ghee, extra coconut chutney" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-royalGold focus:outline-none">
+                        </div>
+
+                        <!-- Price Breakdown -->
+                        <div class="pt-3 border-t border-gray-300 space-y-1.5 text-xs text-gray-600">
+                            <div class="flex justify-between">
+                                <span>Subtotal</span>
+                                <span id="summarySubtotal" class="font-semibold text-gray-800">₹0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>GST (5%)</span>
+                                <span id="summaryTax" class="font-semibold text-gray-800">₹0</span>
+                            </div>
+                            <div class="flex justify-between text-sm font-bold text-deepMaroon pt-1 border-t border-dashed">
+                                <span>Total Amount</span>
+                                <span id="summaryTotal" class="text-base text-karnatakaRed">₹0</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="placeOrderBtn" class="w-full py-3 rounded-xl bg-gradient-to-r from-karnatakaRed to-deepMaroon text-white font-bold text-sm shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4"></i>
+                            <span>Confirm & Place Order</span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Order-tracking dialog; openTrackModal/closeTrackModal control visibility and order details. -->
+    <div id="trackModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-royalGold/40 space-y-6 relative overflow-hidden animate-bounce-in">
+            <button onclick="closeTrackModal()" class="absolute top-4 right-4 p-2 rounded-full text-gray-400 hover:text-gray-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 rounded-full bg-sandalwood/40 mx-auto flex items-center justify-center border-2 border-royalGold">
+                    <i data-lucide="chef-hat" class="w-8 h-8 text-deepMaroon animate-pulse"></i>
+                </div>
+                <h3 id="modalOrderNo" class="font-playfair text-2xl font-bold text-deepMaroon">Order #KC-2026-1001</h3>
+                <p id="modalCustomerDetails" class="text-xs text-gray-500 font-medium">Customer: Ramesh Kumar | Table 02</p>
+            </div>
+
+            <!-- Simulated Live Status Stepper -->
+            <div class="space-y-4 pt-2">
+                <div id="step1Row" class="flex items-center gap-4">
+                    <div id="step1Dot" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-xs shadow-md">1</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-gray-800">Order Received</h4>
+                        <p class="text-xs text-gray-500">Sent to kitchen system</p>
+                    </div>
+                </div>
+
+                <div id="stepConnector1" class="w-0.5 h-6 bg-gray-200 ml-4"></div>
+
+                <div id="step2Row" class="flex items-center gap-4">
+                    <div id="step2Dot" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-xs shadow-md">2</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-gray-800">Preparing in Kitchen</h4>
+                        <p class="text-xs text-gray-500">Fresh ghee dosa on the tawa</p>
+                    </div>
+                </div>
+
+                <div id="stepConnector2" class="w-0.5 h-6 bg-gray-200 ml-4"></div>
+
+                <div id="step3Row" class="flex items-center gap-4 opacity-50">
+                    <div id="step3Dot" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-xs">3</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-gray-800">Ready to Serve</h4>
+                        <p class="text-xs text-gray-500">On the way to your table</p>
+                    </div>
+                </div>
+            </div>
+
+            <p id="trackingStatusText" aria-live="polite" class="rounded-xl bg-sandalwood/50 p-3 text-center text-sm font-semibold text-deepMaroon">Current status: Preparing</p>
+
+            <div class="bg-warmCream p-3 rounded-xl border border-royalGold/20 text-xs text-center text-gray-600">
+                ⚡ Estimated serving time: <span class="font-bold text-deepMaroon">8-12 Minutes</span>
+            </div>
+
+            <button onclick="closeTrackModal()" class="w-full py-2.5 rounded-xl bg-deepMaroon text-sandalwood font-semibold text-sm hover:bg-deepMaroon/90 transition-colors">
+                Close Tracker Window
+            </button>
+        </div>
+    </div>
+
+    <!-- Demo staff sign-in only: a client-side PIN is not secure authentication for a public deployment. -->
+    <div id="staffLoginModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+        <form id="staffLoginForm" onsubmit="handleStaffLogin(event)" class="w-full max-w-sm space-y-4 rounded-2xl border border-bananaGreen/20 bg-white p-6 shadow-2xl">
+            <div class="flex items-center gap-3">
+                <div class="flex h-11 w-11 items-center justify-center rounded-full bg-sandalwood text-bananaGreen">
+                    <i data-lucide="shield-check" class="h-5 w-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-playfair text-xl font-bold text-deepMaroon">Staff sign-in</h3>
+                    <p class="text-xs text-gray-500">Enter the staff PIN to manage food orders.</p>
+                </div>
+            </div>
+            <label for="staffPinInput" class="block text-sm font-semibold text-deepMaroon">Staff PIN</label>
+            <input id="staffPinInput" type="password" inputmode="numeric" autocomplete="current-password" required class="w-full rounded-xl border border-bananaGreen/25 px-4 py-3 text-sm focus:border-bananaGreen focus:outline-none focus:ring-2 focus:ring-bananaGreen/20" placeholder="Enter staff PIN">
+            <p id="staffLoginError" role="alert" class="hidden text-sm font-medium text-red-700">Incorrect PIN. Please try again.</p>
+            <div class="flex gap-3">
+                <button type="button" onclick="closeStaffLogin()" class="flex-1 rounded-xl border border-gray-200 px-4 py-3 text-sm font-semibold text-gray-600 hover:bg-gray-50">Cancel</button>
+                <button type="submit" class="flex-1 rounded-xl bg-deepMaroon px-4 py-3 text-sm font-bold text-white hover:bg-bananaGreen">Sign in</button>
+            </div>
+            <p class="text-[11px] leading-relaxed text-gray-400">Demo-only gate. Do not use this client-side PIN to protect a public site.</p>
+        </form>
+    </div>
+
+    <!-- Staff order dashboard: session-gated in this demo; server-side authorization is required in production. -->
+    <div id="managerModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-royalGold/50 overflow-hidden">
+            
+            <!-- Manager Portal Header -->
+            <div class="bg-deepMaroon text-sandalwood px-6 py-4 flex items-center justify-between border-b border-royalGold/30">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="file-spreadsheet" class="w-6 h-6 text-karnatakaYellow"></i>
+                    <div>
+                        <h3 class="font-playfair text-xl font-bold text-white">Staff Portal · Food Order Status</h3>
+                        <p class="text-xs text-sandalwood/80">Update kitchen progress and manage order logs</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <button onclick="exportOrdersToCSV()" class="px-4 py-2 bg-bananaGreen hover:bg-leafGreen text-white text-xs font-bold rounded-lg flex items-center gap-2 shadow-md transition-all">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span>Export CSV / Excel</span>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <button type="button" onclick="logoutStaff()" class="rounded-lg border border-white/25 px-3 py-2 text-xs font-semibold text-white hover:bg-white/10">Sign out</button>
+                        <button type="button" onclick="toggleManagerModal()" aria-label="Close staff portal" class="p-2 rounded-lg text-sandalwood hover:bg-royalGold/20">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Summary Bar -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 bg-warmCream border-b border-gray-200">
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <span class="text-xs text-gray-500 font-semibold block">Total Orders</span>
+                    <span id="logTotalCount" class="text-2xl font-bold text-deepMaroon">0</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <span class="text-xs text-gray-500 font-semibold block">Total Revenue</span>
+                    <span id="logTotalRevenue" class="text-2xl font-bold text-bananaGreen">₹0</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <span class="text-xs text-gray-500 font-semibold block">Active Tables</span>
+                    <span id="logActiveTables" class="text-2xl font-bold text-karnatakaRed">0</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <span class="text-xs text-gray-500 font-semibold block">Takeaway Orders</span>
+                    <span id="logTakeawayCount" class="text-2xl font-bold text-royalGold">0</span>
+                </div>
+            </div>
+
+            <!-- Orders Table Container -->
+            <div class="flex-1 overflow-x-auto p-6">
+                <table class="w-full text-left text-xs sm:text-sm">
+                    <thead class="bg-deepMaroon/10 text-deepMaroon font-bold uppercase tracking-wider">
+                        <tr>
+                            <th class="p-3 rounded-l-lg">Order No.</th>
+                            <th class="p-3">Date & Time</th>
+                            <th class="p-3">Customer Name</th>
+                            <th class="p-3">Table / Type</th>
+                            <th class="p-3">Items Ordered</th>
+                            <th class="p-3">Total Amount</th>
+                            <th class="p-3 rounded-r-lg">Food Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="managerOrdersTable" class="divide-y divide-gray-200 font-medium text-gray-700">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer info -->
+            <div class="p-4 bg-gray-50 text-xs text-gray-500 border-t border-gray-200 flex justify-between items-center">
+                <span>Orders persist automatically in LocalStorage</span>
+                <button onclick="clearOrderHistory()" class="text-karnatakaRed hover:underline font-semibold flex items-center gap-1">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Clear All Logs
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Shared transient feedback toast; showToast(title, message) updates its content and visibility. -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 pointer-events-none bg-deepMaroon text-sandalwood px-5 py-3 rounded-xl shadow-2xl border border-royalGold/50 flex items-center gap-3">
+        <div id="toastIcon" class="w-7 h-7 rounded-full bg-karnatakaYellow text-deepMaroon flex items-center justify-center font-bold">✓</div>
+        <div>
+            <h5 id="toastTitle" class="font-bold text-sm text-white">Item Added</h5>
+            <p id="toastMessage" class="text-xs text-sandalwood/80">Added to your order tray</p>
+        </div>
+    </div>
+
+    <script>
+        /* DEMO ONLY: this PIN is bundled in the public page source and is not real authentication. */
+        const STAFF_DEMO_PIN = '2468';
+        const STAFF_ORDER_STATUSES = ['Received', 'Preparing', 'Ready', 'Served', 'Cancelled'];
+
+        /* Menu source of truth: renderMenuItems() uses these records to build the cards and basket entries. */
+        const MENU_ITEMS = [
+            {
+                id: 'm1',
+                name: 'Davangere Benne Dosa',
+                kannada: 'ದಾವಣಗೆರೆ ಬೆಣ್ಣೆ ದೋಸೆ',
+                category: 'Dosa Specials',
+                price: 120,
+                rating: 4.9,
+                badge: 'Bestseller',
+                description: 'Golden crisp dosa prepared with authentic fresh white butter, served with potato curry and coconut chutney.',
+                icon: 'utensils'
+            },
+            {
+                id: 'm2',
+                name: 'Mysore Masala Dosa',
+                kannada: 'ಮೈಸೂರು ಮಸಾಲ ದೋಸೆ',
+                category: 'Dosa Specials',
+                price: 110,
+                rating: 4.8,
+                badge: 'Traditional',
+                description: 'Crispy rice crepe smeared with hot garlic red chilli paste and stuffed with potato palya.',
+                icon: 'flame'
+            },
+            {
+                id: 'm3',
+                name: 'Degree Filter Coffee',
+                kannada: 'ಡಿಗ್ರಿ ಫಿಲ್ಟರ್ ಕಾಫಿ',
+                category: 'Beverages',
+                price: 40,
+                rating: 5.0,
+                badge: 'Must Try',
+                description: 'Freshly brewed Chikmagalur chicory filter coffee served hot in brass davara tumbler.',
+                icon: 'coffee'
+            },
+            {
+                id: 'm4',
+                name: 'Bisi Bele Bath',
+                kannada: 'ಬಿಸಿ ಬೇಳೆ ಬಾತ್',
+                category: 'Authentic Mains',
+                price: 130,
+                rating: 4.7,
+                badge: 'Comfort Food',
+                description: 'Flavorful rice dish prepared with lentils, mixed vegetables, aromatic spices, topped with pure ghee & khara boondi.',
+                icon: 'soup'
+            },
+            {
+                id: 'm5',
+                name: 'Neer Dosa with Chutney',
+                kannada: 'ನೀರ್ ದೋಸೆ',
+                category: 'Dosa Specials',
+                price: 95,
+                rating: 4.6,
+                badge: 'Coastal Special',
+                description: 'Ultra soft lace-like rice crepes originating from Mangaluru, served with coconut chutney & jaggery syrup.',
+                icon: 'layers'
+            },
+            {
+                id: 'm6',
+                name: 'Maddur Vada (2 Pcs)',
+                kannada: 'ಮದ್ದೂರು ವಡೆ',
+                category: 'Breakfast',
+                price: 60,
+                rating: 4.7,
+                badge: 'Crispy Snack',
+                description: 'Famous onion-semolina crisp fritter flavored with curry leaves, green chillies and roasted nuts.',
+                icon: 'circle-dot'
+            },
+            {
+                id: 'm7',
+                name: 'Royal Mysuru Pak',
+                kannada: 'ಮೈಸೂರ್ ಪಾಕ್',
+                category: 'Desserts',
+                price: 80,
+                rating: 4.9,
+                badge: 'Pure Ghee',
+                description: 'Melt-in-mouth traditional sweet recipe made with pure desi ghee, gram flour and refined sugar.',
+                icon: 'sparkles'
+            },
+            {
+                id: 'm8',
+                name: 'Jolada Rotti Meals',
+                kannada: 'ಜೋಳದ ರೊಟ್ಟಿ ಊಟ',
+                category: 'Authentic Mains',
+                price: 180,
+                rating: 4.8,
+                badge: 'North KA Special',
+                description: 'Sorghum flatbread served with EnneGai (brinjal curry), Shenga chutney powder, curd and salad.',
+                icon: 'pie-chart'
+            }
+        ];
+
+        /* Shared page state: cart drives basket UI/totals; ordersLog drives manager history; activeCategory drives menu filtering. */
+        let cart = [];
+        let ordersLog = [];
+        let activeCategory = 'All';
+        let staffAuthenticated = false;
+        let activeTrackedOrderId = null;
+
+        // Initialize theme, icons, persisted order history, menu UI, basket UI, and scroll-reveal observers.
+        window.onload = function() {
+            if (localStorage.getItem('karnataka_cafe_theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+            updateThemeControl();
+            lucide.createIcons();
+            loadStoredOrders();
+            renderCategories();
+            renderMenuItems();
+            updateCartUI();
+
+            document.getElementById('welcomeLoader').addEventListener('transitionend', event => {
+                if (event.target.id === 'welcomeLoader' && event.propertyName === 'transform') {
+                    event.target.remove();
+                }
+            });
+            window.setTimeout(dismissWelcome, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 300 : 2200);
+
+            const revealSections = document.querySelectorAll('.reveal-on-scroll');
+            if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.body.classList.add('motion-ready');
+                const revealObserver = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.14 });
+                revealSections.forEach(section => revealObserver.observe(section));
+            } else {
+                revealSections.forEach(section => section.classList.add('is-visible'));
+            }
+        };
+
+        // Load Persisted Orders from LocalStorage
+        function loadStoredOrders() {
+            const saved = localStorage.getItem('karnataka_cafe_orders');
+            if (saved) {
+                try {
+                    ordersLog = JSON.parse(saved);
+                } catch(e) {
+                    ordersLog = [];
+                }
+            } else {
+                // Default Seed Data for Demonstration
+                ordersLog = [
+                    {
+                        orderId: '#KC-2026-1001',
+                        datetime: '2026-10-04 12:30 PM',
+                        customerName: 'Suresh Raina',
+                        phone: '9876543210',
+                        table: 'Table 1',
+                        itemsStr: 'Davangere Benne Dosa (2), Degree Filter Coffee (2)',
+                        total: 320,
+                        status: 'Served'
+                    },
+                    {
+                        orderId: '#KC-2026-1002',
+                        datetime: '2026-10-04 01:15 PM',
+                        customerName: 'Ananya Hegde',
+                        phone: '9123456789',
+                        table: 'Takeaway',
+                        itemsStr: 'Bisi Bele Bath (1), Royal Mysuru Pak (2)',
+                        total: 290,
+                        status: 'Preparing'
+                    }
+                ];
+                saveOrdersToStorage();
+            }
+        }
+
+        function saveOrdersToStorage() {
+            localStorage.setItem('karnataka_cafe_orders', JSON.stringify(ordersLog));
+        }
+
+        /* Render Menu Filters */
+        function renderCategories() {
+            const categories = ['All', 'Dosa Specials', 'Authentic Mains', 'Breakfast', 'Beverages', 'Desserts'];
+            const container = document.getElementById('categoryFilters');
+            
+            container.innerHTML = categories.map(cat => `
+                <button type="button" aria-pressed="${activeCategory === cat}" onclick="setCategory('${cat}')" class="category-tab px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${
+                    activeCategory === cat 
+                    ? 'bg-gradient-to-r from-karnatakaRed to-deepMaroon text-white shadow-lg scale-105 border border-royalGold/50' 
+                    : 'bg-white text-deepMaroon border border-royalGold/30 hover:bg-sandalwood/30'
+                }">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function setCategory(cat) {
+            activeCategory = cat;
+            renderCategories();
+            renderMenuItems();
+        }
+
+        /* Render Filtered Menu Items Grid */
+        function renderMenuItems() {
+            const grid = document.getElementById('dishesGrid');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            const filtered = MENU_ITEMS.filter(item => {
+                const matchesCat = activeCategory === 'All' || item.category === activeCategory;
+                const matchesSearch = item.name.toLowerCase().includes(search) || item.kannada.includes(search);
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-500 space-y-2">
+                        <i data-lucide="utensils-crossed" class="w-12 h-12 mx-auto text-royalGold"></i>
+                        <p class="font-bold">No Karnataka dishes found matching your search.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            grid.innerHTML = filtered.map((item, index) => {
+                const cartItem = cart.find(entry => entry.id === item.id);
+                return `
+                <div id="menu-item-${item.id}" tabindex="-1" class="menu-card glass-card rounded-2xl p-5 border border-royalGold/30 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group" style="--card-index: ${index}">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-royalGold/20 text-deepMaroon border border-royalGold/40">
+                                ${item.badge}
+                            </span>
+                            <span class="text-xs font-bold text-bananaGreen flex items-center gap-1">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-bananaGreen"></i> ${item.rating}
+                            </span>
+                        </div>
+
+                        <div class="pt-2">
+                            <span class="font-kannada text-xs text-karnatakaRed font-semibold block">${item.kannada}</span>
+                            <h3 class="font-playfair text-lg font-bold text-deepMaroon group-hover:text-karnatakaRed transition-colors">${item.name}</h3>
+                            <p class="text-xs text-gray-600 line-clamp-2 mt-1 leading-relaxed">${item.description}</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 mt-4 border-t border-royalGold/20 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-gray-400 block">Price</span>
+                            <span class="text-lg font-bold text-deepMaroon">₹${item.price}</span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            ${cartItem ? `<span class="text-[10px] font-semibold text-bananaGreen">In tray: ${cartItem.qty}</span>` : ''}
+                            <button type="button" onclick="addToCart('${item.id}')" class="px-3 py-2 rounded-lg bg-gradient-to-r from-karnatakaYellow to-royalGold hover:from-karnatakaRed hover:to-deepMaroon text-deepMaroon hover:text-white text-xs font-bold shadow-md active:scale-95 transition-all flex items-center gap-1.5">
+                                <i data-lucide="plus" class="w-4 h-4"></i> Add
+                            </button>
+                            ${cartItem ? `<button type="button" onclick="removeFromCart('${item.id}')" aria-label="Remove ${item.name} from order" title="Remove from order" class="w-9 h-9 rounded-lg border border-karnatakaRed/30 text-karnatakaRed hover:bg-karnatakaRed hover:text-white transition-colors flex items-center justify-center"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function filterMenu() {
+            renderMenuItems();
+        }
+
+        function showMenuItem(itemId) {
+            activeCategory = 'All';
+            document.getElementById('searchInput').value = '';
+            renderCategories();
+            renderMenuItems();
+
+            const itemCard = document.getElementById(`menu-item-${itemId}`);
+            if (!itemCard) return;
+
+            history.replaceState(null, '', `#menu-item-${itemId}`);
+            itemCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            itemCard.focus({ preventScroll: true });
+        }
+
+        /* Cart Management Functions */
+        function addToCart(itemId) {
+            const item = MENU_ITEMS.find(m => m.id === itemId);
+            if (!item) return;
+
+            const existing = cart.find(c => c.id === itemId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+
+            updateCartUI();
+            renderMenuItems();
+            showToast('Added to Tray', `${item.name} added to your order.`);
+        }
+
+        function removeFromCart(itemId) {
+            const item = cart.find(entry => entry.id === itemId);
+            if (!item) return;
+
+            cart = cart.filter(entry => entry.id !== itemId);
+            updateCartUI();
+            renderMenuItems();
+            showToast('Removed from Tray', `${item.name} removed from your order.`);
+        }
+
+        function updateCartQty(itemId, delta) {
+            const index = cart.findIndex(c => c.id === itemId);
+            if (index !== -1) {
+                cart[index].qty += delta;
+                if (cart[index].qty <= 0) {
+                    cart.splice(index, 1);
+                }
+            }
+            updateCartUI();
+            renderMenuItems();
+        }
+
+        function updateCartUI() {
+            const countBadge = document.getElementById('cartBadgeCount');
+            const totalQty = cart.reduce((acc, curr) => acc + curr.qty, 0);
+            countBadge.innerText = totalQty;
+            document.getElementById('cartOpenButton').setAttribute('aria-label', `Open order basket, ${totalQty} ${totalQty === 1 ? 'item' : 'items'}`);
+            document.getElementById('cartDrawerItemCount').innerText = `(${totalQty} ${totalQty === 1 ? 'item' : 'items'})`;
+
+            const container = document.getElementById('cartItemsContainer');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 space-y-3 text-gray-400">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto text-royalGold opacity-50"></i>
+                        <p class="font-medium text-sm">Your tray is empty.</p>
+                        <p class="text-xs">Add delicious Karnataka delicacies from the menu!</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(c => `
+                    <div class="cart-line-item grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 rounded-xl border p-3 shadow-sm">
+                        <div class="min-w-0 space-y-0.5">
+                            <h4 class="break-words font-bold text-sm text-deepMaroon">${c.name}</h4>
+                            <p class="text-xs text-gray-600">₹${c.price} each</p>
+                        </div>
+                        <span class="cart-line-price whitespace-nowrap text-sm font-bold">₹${c.price * c.qty}</span>
+                        <div class="col-span-2 flex items-center gap-2">
+                            <button type="button" onclick="updateCartQty('${c.id}', -1)" aria-label="Decrease quantity of ${c.name}" class="cart-quantity-control flex h-8 w-8 items-center justify-center rounded-lg border bg-white text-sm font-bold hover:bg-sandalwood">−</button>
+                            <span class="w-8 text-center text-sm font-bold text-deepMaroon">${c.qty}</span>
+                            <button type="button" onclick="updateCartQty('${c.id}', 1)" aria-label="Increase quantity of ${c.name}" class="cart-quantity-control flex h-8 w-8 items-center justify-center rounded-lg border bg-white text-sm font-bold hover:bg-sandalwood">+</button>
+                            <button type="button" onclick="removeFromCart('${c.id}')" aria-label="Remove ${c.name} from basket" title="Remove item" class="ml-auto flex h-8 items-center gap-1.5 rounded-lg px-2 text-xs font-semibold text-karnatakaRed hover:bg-red-50"><i data-lucide="trash-2" class="h-4 w-4"></i><span>Remove</span></button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Subtotal Calculations
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const gst = Math.round(subtotal * 0.05);
+            const total = subtotal + gst;
+
+            document.getElementById('summarySubtotal').innerText = `₹${subtotal}`;
+            document.getElementById('summaryTax').innerText = `₹${gst}`;
+            document.getElementById('summaryTotal').innerText = `₹${total}`;
+
+            lucide.createIcons();
+        }
+
+        /* Drawer Controllers */
+        function openCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            drawer.setAttribute('aria-hidden', 'false');
+            drawer.classList.remove('pointer-events-none');
+            document.getElementById('cartBackdrop').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('cartPanel').classList.remove('translate-x-full');
+            document.getElementById('cartOpenButton').setAttribute('aria-expanded', 'true');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            drawer.setAttribute('aria-hidden', 'true');
+            drawer.classList.add('pointer-events-none');
+            document.getElementById('cartBackdrop').classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('cartPanel').classList.add('translate-x-full');
+            document.getElementById('cartOpenButton').setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function updateThemeControl() {
+            const isDark = document.body.classList.contains('dark-mode');
+            const button = document.getElementById('themeToggle');
+            button.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+            button.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}" class="w-5 h-5"></i>`;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('karnataka_cafe_theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            updateThemeControl();
+            lucide.createIcons();
+        }
+
+        function dismissWelcome() {
+            const loader = document.getElementById('welcomeLoader');
+            if (loader && !loader.classList.contains('is-leaving')) {
+                loader.classList.add('is-leaving');
+                const removalDelay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 50 : 1000;
+                window.setTimeout(() => loader.remove(), removalDelay);
+            }
+        }
+
+        /* Handle Order Submission */
+        function handlePlaceOrder(e) {
+            e.preventDefault();
+
+            if (cart.length === 0) {
+                showToast('Tray Empty', 'Please add dishes to your cart before ordering.', '⚠');
+                return;
+            }
+
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const table = document.getElementById('custTable').value;
+
+            // Generate Order ID & Details
+            const orderId = `#KC-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const total = subtotal + Math.round(subtotal * 0.05);
+
+            const itemsFormatted = cart.map(i => `${i.name} (${i.qty})`).join(', ');
+
+            const newOrder = {
+                orderId: orderId,
+                datetime: new Date().toLocaleString(),
+                customerName: name,
+                phone: phone,
+                table: table,
+                itemsStr: itemsFormatted,
+                total: total,
+                status: 'Preparing'
+            };
+
+            // Log Order
+            ordersLog.unshift(newOrder);
+            saveOrdersToStorage();
+
+            // Clear Cart
+            cart = [];
+            updateCartUI();
+            closeCartDrawer();
+
+            // Reset Form
+            document.getElementById('orderForm').reset();
+
+            // Show Confirmation & Tracker
+            openTrackModalWithOrder(newOrder);
+            showToast('Order Received!', `Your order ${orderId} has been sent to kitchen.`);
+        }
+
+        /* Track Modal Display */
+        function openTrackModalWithOrder(order) {
+            activeTrackedOrderId = order.orderId;
+            document.getElementById('modalOrderNo').innerText = `Order ${order.orderId}`;
+            document.getElementById('modalCustomerDetails').innerText = `Customer: ${order.customerName} | ${order.table}`;
+            renderOrderTrackingStatus(order);
+            document.getElementById('trackModal').classList.remove('hidden');
+        }
+
+        function openTrackModal() {
+            if (ordersLog.length > 0) {
+                openTrackModalWithOrder(ordersLog[0]);
+            } else {
+                showToast('No Active Orders', 'Place an order first to track status.');
+            }
+        }
+
+        function closeTrackModal() {
+            document.getElementById('trackModal').classList.add('hidden');
+        }
+
+        /* Manager Portal & CSV Export Functionalities */
+        function toggleManagerModal() {
+            const modal = document.getElementById('managerModal');
+            if (modal.classList.contains('hidden')) {
+                if (!staffAuthenticated) {
+                    openStaffLogin();
+                    return;
+                }
+                renderManagerTable();
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function openStaffLogin() {
+            const loginModal = document.getElementById('staffLoginModal');
+            loginModal.classList.remove('hidden');
+            loginModal.classList.add('flex');
+            document.getElementById('staffLoginError').classList.add('hidden');
+            document.getElementById('staffPinInput').value = '';
+            window.setTimeout(() => document.getElementById('staffPinInput').focus(), 0);
+        }
+
+        function closeStaffLogin() {
+            const loginModal = document.getElementById('staffLoginModal');
+            loginModal.classList.add('hidden');
+            loginModal.classList.remove('flex');
+        }
+
+        function handleStaffLogin(event) {
+            event.preventDefault();
+            const pinInput = document.getElementById('staffPinInput');
+            if (pinInput.value !== STAFF_DEMO_PIN) {
+                document.getElementById('staffLoginError').classList.remove('hidden');
+                pinInput.select();
+                return;
+            }
+
+            staffAuthenticated = true;
+            closeStaffLogin();
+            renderManagerTable();
+            document.getElementById('managerModal').classList.remove('hidden');
+        }
+
+        function logoutStaff() {
+            staffAuthenticated = false;
+            document.getElementById('managerModal').classList.add('hidden');
+            showToast('Staff signed out', 'The staff order dashboard is locked.');
+        }
+
+        function renderOrderTrackingStatus(order) {
+            const currentStep = {
+                Received: 0,
+                Preparing: 1,
+                Ready: 2,
+                Served: 3,
+                Cancelled: -1
+            }[order.status] ?? 1;
+            const cancelled = order.status === 'Cancelled';
+            const statusText = cancelled
+                ? 'Order cancelled.'
+                : `Current status: ${order.status || 'Preparing'}`;
+            document.getElementById('trackingStatusText').innerText = statusText;
+
+            [1, 2, 3].forEach((step, index) => {
+                const dot = document.getElementById(`step${step}Dot`);
+                const row = document.getElementById(`step${step}Row`);
+                dot.className = 'w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shadow-md';
+                row.classList.remove('opacity-50');
+
+                if (cancelled || currentStep < 0) {
+                    dot.classList.add('bg-gray-200', 'text-gray-600');
+                    row.classList.add('opacity-50');
+                } else if (index < currentStep || order.status === 'Served') {
+                    dot.classList.add('bg-bananaGreen', 'text-white');
+                } else if (index === currentStep) {
+                    dot.classList.add('bg-royalGold', 'text-deepMaroon', 'animate-bounce');
+                } else {
+                    dot.classList.add('bg-gray-200', 'text-gray-600');
+                    row.classList.add('opacity-50');
+                }
+            });
+
+            document.getElementById('stepConnector1').classList.toggle('bg-bananaGreen', !cancelled && currentStep > 0);
+            document.getElementById('stepConnector2').classList.toggle('bg-bananaGreen', !cancelled && currentStep > 1);
+        }
+
+        function updateOrderStatus(orderId, status) {
+            if (!staffAuthenticated) {
+                showToast('Staff sign-in required', 'Sign in to update food order statuses.', '⚠');
+                return;
+            }
+            if (!STAFF_ORDER_STATUSES.includes(status)) {
+                showToast('Invalid status', 'Choose a valid food order status.', '⚠');
+                renderManagerTable();
+                return;
+            }
+
+            const order = ordersLog.find(entry => entry.orderId === orderId);
+            if (!order) {
+                showToast('Order not found', 'Refresh the staff portal and try again.', '⚠');
+                return;
+            }
+
+            order.status = status;
+            saveOrdersToStorage();
+            renderManagerTable();
+            if (activeTrackedOrderId === order.orderId) {
+                renderOrderTrackingStatus(order);
+            }
+            showToast('Food status updated', `${order.orderId} is now ${status}.`);
+        }
+
+        function renderManagerTable() {
+            if (!staffAuthenticated) return;
+            const tbody = document.getElementById('managerOrdersTable');
+            
+            // Analytics Calculation
+            const totalOrders = ordersLog.length;
+            const totalRev = ordersLog.reduce((s, o) => s + o.total, 0);
+            const activeTables = new Set(ordersLog.filter(o => o.table.includes('Table')).map(o => o.table)).size;
+            const takeaways = ordersLog.filter(o => o.table === 'Takeaway').length;
+
+            document.getElementById('logTotalCount').innerText = totalOrders;
+            document.getElementById('logTotalRevenue').innerText = `₹${totalRev}`;
+            document.getElementById('logActiveTables').innerText = activeTables;
+            document.getElementById('logTakeawayCount').innerText = takeaways;
+
+            if (ordersLog.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-gray-400">No order history available.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = ordersLog.map(o => `
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="p-3 font-bold text-deepMaroon">${o.orderId}</td>
+                    <td class="p-3 text-gray-500">${o.datetime}</td>
+                    <td class="p-3 font-semibold">${o.customerName}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold ${o.table === 'Takeaway' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">${o.table}</span></td>
+                    <td class="p-3 text-xs max-w-xs truncate">${o.itemsStr}</td>
+                    <td class="p-3 font-bold text-karnatakaRed">₹${o.total}</td>
+                    <td class="p-3">
+                        <label class="sr-only" for="order-status-${o.orderId}">Food status for ${o.orderId}</label>
+                        <select id="order-status-${o.orderId}" onchange="updateOrderStatus('${o.orderId}', this.value)" class="rounded-lg border border-bananaGreen/25 bg-white px-2 py-1.5 text-xs font-semibold text-deepMaroon focus:outline-none focus:ring-2 focus:ring-bananaGreen/30">
+                            ${STAFF_ORDER_STATUSES.map(status => `<option value="${status}" ${o.status === status ? 'selected' : ''}>${status}</option>`).join('')}
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        /* CSV Export Algorithm */
+        function exportOrdersToCSV() {
+            if (!staffAuthenticated) {
+                showToast('Staff sign-in required', 'Sign in to export order history.', '⚠');
+                return;
+            }
+            if (ordersLog.length === 0) {
+                showToast('Export Error', 'No order logs available to export.', '⚠');
+                return;
+            }
+
+            // CSV Headers
+            const headers = ["Order No", "Date & Time", "Customer Name", "Phone", "Table/Type", "Items Ordered", "Total Price (INR)", "Status"];
+            
+            // Escape special CSV characters like commas
+            const rows = ordersLog.map(o => [
+                `"${o.orderId}"`,
+                `"${o.datetime}"`,
+                `"${o.customerName.replace(/"/g, '""')}"`,
+                `"${o.phone}"`,
+                `"${o.table}"`,
+                `"${o.itemsStr.replace(/"/g, '""')}"`,
+                `"${o.total}"`,
+                `"${o.status}"`
+            ]);
+
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+
+            // Download Trigger
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Karnataka_Cafe_Orders_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast('CSV Downloaded', 'Order logs exported successfully.');
+        }
+
+        function clearOrderHistory() {
+            if (!staffAuthenticated) {
+                showToast('Staff sign-in required', 'Sign in to clear order history.', '⚠');
+                return;
+            }
+            if (confirm("Are you sure you want to clear all order history logs?")) {
+                ordersLog = [];
+                saveOrdersToStorage();
+                renderManagerTable();
+                showToast('Cleared', 'Order logs wiped successfully.');
+            }
+        }
+
+        /* Toast Helper */
+        function showToast(title, message, icon = '✓') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastTitle').innerText = title;
+            document.getElementById('toastMessage').innerText = message;
+            document.getElementById('toastIcon').innerText = icon;
+
+            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
