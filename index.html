@@ -264,7 +264,54 @@
         #managerModal .manager-header { gap: 1rem; }
         #managerModal .manager-header-actions { flex-wrap: wrap; justify-content: flex-end; }
         @media (max-width: 640px) {
-            #hero .dasara-orbit { width: 16rem; height: 16rem; }
+            #hero .dasara-orbit { display: none; }
+            #hero .hero-visual > .absolute { position: relative; inset: auto; width: 100%; }
+            #hero .hero-special-link {
+                display: grid;
+                width: min(100%, 24rem) !important;
+                grid-template-columns: 4rem minmax(0, 1fr);
+                align-items: center;
+                gap: .65rem 1rem;
+                padding: 1rem !important;
+                text-align: left;
+            }
+            #hero .hero-special-link > span:first-child { grid-column: 1 / -1; justify-self: center; }
+            #hero .hero-special-link > div:first-of-type {
+                grid-column: 1;
+                grid-row: 2 / span 2;
+                width: 4rem !important;
+                height: 4rem !important;
+                margin: 0 !important;
+            }
+            #hero .hero-special-link > div:first-of-type > i { width: 2rem; height: 2rem; }
+            #hero .hero-special-link > h3 {
+                grid-column: 2;
+                grid-row: 2;
+                align-self: end;
+                margin: 0 !important;
+                font-size: 1.125rem;
+                line-height: 1.25;
+            }
+            #hero .hero-special-link > p {
+                grid-column: 2;
+                grid-row: 3;
+                align-self: start;
+                margin: 0 !important;
+                font-size: .72rem;
+            }
+            #hero .hero-special-link > div:last-of-type {
+                grid-column: 1 / -1;
+                grid-row: 4;
+                gap: .5rem;
+                margin-top: .5rem !important;
+                padding-top: .75rem !important;
+            }
+            #hero .hero-special-link > span:last-child {
+                grid-column: 1 / -1;
+                grid-row: 5;
+                justify-self: center;
+                margin-top: 0 !important;
+            }
             #managerModal { padding: .5rem !important; }
             #managerModal > div { max-height: 94dvh !important; border-radius: 1rem !important; }
             #managerModal .manager-header { align-items: flex-start; padding: .9rem 1rem !important; }
